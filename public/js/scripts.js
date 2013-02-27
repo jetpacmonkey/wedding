@@ -1,5 +1,6 @@
 (function($, undefined) {
-	var content = $("#content");
+	var content = $("#content"),
+		views = $("#views");
 	function loading(isLoading) {
 		if (isLoading) {
 			content.addClass("loading");
@@ -8,8 +9,14 @@
 		}
 	}
 
+	function setView(name) {
+		var copyFrom = views.find("." + name);
+		content.html(copyFrom.clone(true).children());
+		content.addClass(name);
+	}
+
 	function setLoginHandlers() {
-		$("input").off().on("keyup change", function() {
+		$(".login input").off().on("keyup change", function() {
 			if ($(this).val()) {
 				$(this).addClass("hasValue");
 			} else {
@@ -17,11 +24,11 @@
 			}
 		}).on("keyup", function(e) {
 			if (e.which == 13) {
-				$("button.login").click();
+				content.find(".loginButton").click();
 			}
 		});
 
-		$("button.login").off().on("click", function() {
+		$(".loginButton").off().on("click", function() {
 			loading(true);
 			var data = {};
 			content.find("input").each(function() {
@@ -29,8 +36,25 @@
 			});
 			var jqxhr = $.post("actions/login.php", data);
 
-			jqxhr.done(function() {
+			jqxhr.done(function(data) {
+				if (data.success) {
+					setView(data.type);
+				} else { //login failed
 
+				}
+			}).fail(function() {
+				console.error("Login failed :(");
+			}).always(function() {
+				loading(false);
+			});
+		});
+	}
+
+	function setAdminHandlers() {
+		$(".logoutButton").off().on("click", function() {
+			loading(true);
+			$.post("actions/logout.php").done(function() {
+				setView("login");
 			}).fail(function() {
 
 			}).always(function() {
@@ -40,6 +64,7 @@
 	}
 
 	setLoginHandlers();
+	setAdminHandlers();
+
+	setView("admin");
 })(jQuery.noConflict());
-
-

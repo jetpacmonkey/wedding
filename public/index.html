@@ -3,29 +3,48 @@
 <head>
 	<title>Wedding RSVP</title>
 	<link rel="stylesheet" type="text/css" href="css/styles.css"/>
-	<script type="text/javascript" src="js/html5shiv.js"/>
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/html5shiv.js"></script>
 </head>
 <body>
 	<header class="mainHeader">Jeremy and Emily's Wedding RSVP</header>
-	<div id="content" class="login">
-		<header>Welcome!</header>
-		<div id="main">
-			<div class="instructions">Please enter the information from your invitation below...</div>
-			<figure class="inputField">
-				<input type="text" data-field="user" id="login-user">
-				<label class="placeholder" for="login-user">Username</label>
-			</figure>
-			<figure class="inputField">
-				<input type="password" data-field="pass" id="login-pass">
-				<label class="placeholder" for="login-pass">Password</label>
-			</figure>
-		</div>
-		<footer>
-			<button class="login">Login</button>
-		</footer>
+	<div id="content">
 	</div>
 	<div class="loadingArea"></div>
+	<div id="views">
+		<div class="login">
+			<header>Welcome!</header>
+			<div class="main">
+				<div class="instructions">Please enter the information from your invitation below...</div>
+				<figure class="inputField">
+					<input type="text" data-field="user" id="login-user">
+					<label class="placeholder" for="login-user">Username</label>
+				</figure>
+				<figure class="inputField">
+					<input type="password" data-field="pass" id="login-pass">
+					<label class="placeholder" for="login-pass">Password</label>
+				</figure>
+			</div>
+			<footer>
+				<button class="loginButton">Login</button>
+			</footer>
+		</div>
+		<div class="admin">
+			<header>Admin Menu<button class="logoutButton">Logout</button></header>
+			<nav>
+				<div class="nav-item selected" data-subview="add">Add Guests</div>
+				<div class="nav-item" data-subview="totals">View Totals</div>
+				<div class="nav-item" data-subview="view">View Guests</div>
+				<div class="nav-item" data-subview="enter">Enter Info</div>
+			</nav>
+			<div class="main">
+
+			</div>
+		</div>
+		<div class="guest">
+
+		</div>
+	</div>
 	<script type="text/javascript" src="js/scripts.js"></script>
 </body>
 </html>

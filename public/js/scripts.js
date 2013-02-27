@@ -66,5 +66,5 @@
 	setLoginHandlers();
 	setAdminHandlers();
 
-	setView("admin");
+	setView("login");
 })(jQuery.noConflict());

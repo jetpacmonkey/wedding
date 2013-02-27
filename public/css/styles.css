@@ -207,6 +207,7 @@ html, body {
 	line-height: 40px;
 	margin: 0;
 	position: relative;
+	z-index: 1;
 }
 
 .inputField:last-child {
@@ -258,6 +259,8 @@ html, body {
 	-ms-transition: all 0.6s;
 	-o-transition: all 0.6s;
 	transition: all 0.6s;
+
+	z-index: 100;
 }
 
 .inputField input:focus + .placeholder, .inputField .hasValue + .placeholder {

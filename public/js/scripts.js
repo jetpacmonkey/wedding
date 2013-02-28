@@ -65,5 +65,16 @@
 	setLoginHandlers();
 	setAdminHandlers();
 
-	setView("login");
+	loading(true);
+	$.get("actions/status.php").done(function(data) {
+		if (data.active) {
+			setView(data.type);
+		} else {
+			setView("login");
+		}
+	}).fail(function() {
+		setView("login");
+	}).always(function() {
+		loading(false);
+	});
 })(jQuery.noConflict());

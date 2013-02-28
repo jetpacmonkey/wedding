@@ -11,8 +11,7 @@
 
 	function setView(name) {
 		var copyFrom = views.find("." + name);
-		content.html(copyFrom.clone(true).children());
-		content.addClass(name);
+		content.html(copyFrom.clone(true).children()).removeAttr("class").addClass(name);
 	}
 
 	function setLoginHandlers() {

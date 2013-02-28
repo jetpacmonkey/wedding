@@ -32,10 +32,10 @@
 		<div class="admin">
 			<header>Admin Menu<button class="logoutButton">Logout</button></header>
 			<nav>
-				<div class="nav-item selected" data-subview="add">Add Guests</div>
+				<div class="nav-item" data-subview="add">Manage Guest List</div>
 				<div class="nav-item" data-subview="totals">View Totals</div>
-				<div class="nav-item" data-subview="view">View Guests</div>
-				<div class="nav-item" data-subview="enter">Enter Info</div>
+				<div class="nav-item" data-subview="view">View Responses</div>
+				<div class="nav-item" data-subview="enter">Single Guest View</div>
 			</nav>
 			<div class="main">
 
@@ -43,6 +43,45 @@
 		</div>
 		<div class="guest">
 
+		</div>
+		<div class="subviews admin-subviews">
+			<div class="add">
+				<table>
+					<thead>
+						<tr>
+							<th class="first">First</th>
+							<th class="last">Last</th>
+							<th class="plusOnePermitted" title="Plus one permitted?">+1?</th>
+							<th class="type">Age</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="newGuest">
+							<td class="first" data-field="first_name"><input type="text"/></td>
+							<td class="last" data-field="last_name"><input type="text"/></td>
+							<td class="plusOnePermitted" data-field="plus_one_permitted"><input type="checkbox"/></td>
+							<td class="type" data-field="type">
+								<select>
+									<option value="adult">Adult (11+)</option>
+									<option value="child">Child (4-10)</option>
+									<option calue="toddler">Toddler (0-3)</option>
+								</select>
+							</td>
+							<td class="action saveGuest">Save</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="totals">
+				<span>totals</span>
+			</div>
+			<div class="view">
+				<span>view</span>
+			</div>
+			<div class="enter">
+				<span>enter</span>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript" src="js/scripts.js"></script>

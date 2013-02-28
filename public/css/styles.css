@@ -364,4 +364,47 @@ footer {
 	float: right;
 	width: 65%;
 	height: 300px;
+	overflow: auto;
+}
+
+.admin .add table {
+	width: 100%;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.admin table th {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.admin table td {
+	font-size: 12px;
+}
+
+.admin .add .first, .admin .add .last, .admin .add .type {
+	width: 20%;
+}
+
+.admin .add .plusOnePermitted {
+	width: 1px;
+}
+
+.admin .add .action {
+	cursor: pointer;
+	font-style: italic;
+	text-decoration: underline;
+	color: #00e;
+	font-size: 14px;
+}
+
+.admin .add .action:hover {
+	text-decoration: none;
+	color: #06f;
+}
+
+.admin table input[type="text"], .admin table select {
+	width: 100%;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }

@@ -30,12 +30,31 @@
 
 				echo json_encode($arr);
 			} else {
-				header("HTTP/1.0 403 Forbidden");
-				echo "You must be logged in as an admin to access this resource";
+				header('HTTP/1.0 403 Forbidden');
+				echo 'You must be logged in as an admin to access this resource';
+			}
+		} else if ($action == 'add') {
+			if (checkPermission('admin')) {
+				header('Content-type: application/json');
+
+				connect();
+
+				$data = (array)json_decode($_REQUEST['data']);
+
+				$insertedId = insert('guests', $data);
+
+				disconnect();
+
+				$arr = array('id' => $insertedId);
+
+				echo json_encode($arr);
+			} else {
+				header('HTTP/1.0 403 Forbidden');
+				echo 'You must be logged in as an admin to access this resource';
 			}
 		}
 	} else {
-		header("HTTP/1.0 403 Forbidden");
-		echo "You must be logged in to access this resource";
+		header('HTTP/1.0 403 Forbidden');
+		echo 'You must be logged in as an admin to access this resource';
 	}
 ?>

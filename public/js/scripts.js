@@ -18,6 +18,23 @@
 		}
 	}
 
+	function fillRow(tr, data) {
+		tr.find("td").each(function() {
+			var field = $(this).data("field"),
+				val = data[field];
+
+			if (field) {
+				if (val === !!val) {
+					//is bool
+					val = (val ? "Y" : "N");
+				}
+				$(this).text(val);
+			}
+		});
+		tr.find(".action").removeClass("saveGuest").text("Edit");
+		tr.removeClass("newGuest");
+	}
+
 	function setLoginHandlers() {
 		$(".login input").off().on("keyup change", function() {
 			if ($(this).val()) {
@@ -97,23 +114,49 @@
 				loadGuests(function(data) {
 					for (var i=0, ii=data.length; i<ii; ++i) {
 						var tr = newGuest.clone();
-						tr.find("td").each(function() {
-							var field = $(this).data("field"),
-								val = data[i][field];
-
-							if (field) {
-								if (val === !!val) {
-									//is bool
-									val = (val ? "Y" : "N");
-								}
-								$(this).text(val);
-							}
-						});
-						tr.find(".action").removeClass("saveGuest").text("Edit");
+						fillRow(tr, data[i]);
+						tr.data("id", data[i].id);
 						tr.insertBefore(newGuest);
 					}
 				});
 			}
+		});
+
+		//"add" subview handlers
+		var subview_add = subviews.children(".add");
+		subview_add.find("table").off().on("click", ".newGuest .saveGuest", function() {
+			var vals = {},
+				row = $(this).parents(".newGuest"),
+				cells = row.find("[data-field]");
+
+			cells.each(function() {
+				var cell = $(this),
+					field = cell.data("field");
+					input = cell.find("input, select");
+
+				if (input.is(":checkbox")) {
+					vals[field] = input.prop("checked");
+				} else {
+					vals[field] = input.val();
+				}
+			});
+
+
+			$.post("actions/guests.php", {
+				"action": "add",
+				"data": JSON.stringify(vals)
+			}).done(function(respData) {
+				var tr = row.clone();
+				fillRow(tr, vals);
+				tr.data("id", respData.id);
+				tr.insertBefore(row);
+
+				var checkBoxes = cells.find(":checkbox").prop("checked", false);
+				cells.find("input, select").not(checkBoxes).val("");
+			}).fail(function(respData) {
+				alert("Failed!");
+				console.log(respData);
+			});
 		});
 	}
 

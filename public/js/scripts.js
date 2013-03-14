@@ -18,7 +18,22 @@
 		}
 	}
 
-	function fillRow(tr, data) {
+	var actions = {
+		"edit": $("<div>").addClass("editGuest oneAction").text("Edit"),
+		"save": $().add($("<div>").addClass("saveGuest oneAction").text("Save")).
+			add($("<div>").addClass("cancelEdit oneAction").text("Cancel")).
+			add($("<div>").addClass("deleteGuest oneAction").text("Delete")),
+		"new": $("<div>").addClass("saveGuest oneAction").text("Save")
+	};
+
+	function setAction(tr, action) {
+		tr.find(".action").html(actions[action].clone());
+	}
+
+	function fillRow(tr, data, action) {
+		if (arguments.length < 3) {
+			action = "edit";
+		}
 		tr.find("td").each(function() {
 			var field = $(this).data("field"),
 				val = data[field];
@@ -31,8 +46,9 @@
 				$(this).text(val);
 			}
 		});
-		tr.find(".action").removeClass("saveGuest").text("Edit");
-		tr.removeClass("newGuest");
+		setAction(tr, action);
+		tr.removeClass("newGuest").addClass("oneGuest");
+		tr.data("vals", data);
 	}
 
 	function setLoginHandlers() {
@@ -126,7 +142,7 @@
 		var subview_add = subviews.children(".add");
 		subview_add.find("table").off().on("click", ".newGuest .saveGuest", function() {
 			var vals = {},
-				row = $(this).parents(".newGuest"),
+				row = $(this).closest(".newGuest"),
 				cells = row.find("[data-field]");
 
 			cells.each(function() {
@@ -157,7 +173,37 @@
 				alert("Failed!");
 				console.log(respData);
 			});
+		}).on("click", ".editGuest", function() {
+			var row = $(this).closest("tr"),
+				vals = row.data("vals"),
+				newGuestRow = subview_add.find(".newGuest");
+
+			row.find("[data-field]").each(function() {
+				var cell = $(this),
+					field = cell.data("field"),
+					val = vals[field],
+					templateCell = newGuestRow.find("[data-field='" + field + "']").clone();
+
+				cell.empty().append(templateCell);
+				var input = cell.find("input, select");
+				if (input.is(":checkbox")) {
+					input.prop("checked", val);
+				} else {
+					input.val(val);
+				}
+			});
+
+			row.addClass("editing");
+			setAction(row, "save");
+		}).on("click", ".cancelEdit", function() {
+			var row = $(this).closest("tr"),
+				vals = row.data("vals");
+
+			row.removeClass("editing");
+			fillRow(row, vals); //fill in the values that were stored when the row was initially filled, ignoring input values
 		});
+
+		setAction(subview_add.find(".newGuest"), "new");
 	}
 
 	setLoginHandlers();

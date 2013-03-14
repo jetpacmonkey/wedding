@@ -390,7 +390,7 @@ footer {
 	width: 1px;
 }
 
-.admin .add .action {
+.admin .add .oneAction {
 	cursor: pointer;
 	font-style: italic;
 	text-decoration: underline;
@@ -398,7 +398,7 @@ footer {
 	font-size: 14px;
 }
 
-.admin .add .action:hover {
+.admin .add .oneAction:hover {
 	text-decoration: none;
 	color: #06f;
 }

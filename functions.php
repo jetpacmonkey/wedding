@@ -52,6 +52,18 @@ function insert($table, $data) {
 	return mysqli_insert_id($link);
 }
 
+function update($table, $id, $data) {
+	global $link;
+
+	$arr = array();
+	foreach ($data as $key => $value) {
+		$arr[] = safeFieldName($key) . '=' . safeValue($value);
+	}
+
+	$query = "UPDATE `$table` SET " . implode(',', $arr) . " WHERE id=\"$id\"";
+	return mysqli_query($link, $query);
+}
+
 function safeFieldName($fieldName) {
 	return '`' . mysql_escape_string($fieldName) . '`';
 }

@@ -20,7 +20,7 @@
 
 	var actions = {
 		"edit": $("<div>").addClass("editGuest oneAction").text("Edit"),
-		"save": $().add($("<div>").addClass("saveGuest oneAction").text("Save")).
+		"save": $().add($("<div>").addClass("saveEdit oneAction").text("Save")).
 			add($("<div>").addClass("cancelEdit oneAction").text("Cancel")).
 			add($("<div>").addClass("deleteGuest oneAction").text("Delete")),
 		"new": $("<div>").addClass("saveGuest oneAction").text("Save")
@@ -201,6 +201,39 @@
 
 			row.removeClass("editing");
 			fillRow(row, vals); //fill in the values that were stored when the row was initially filled, ignoring input values
+		}).on("click", ".saveEdit", function() {
+			var row = $(this).closest("tr"),
+				cells = row.find("[data-field]"),
+				vals = {},
+				id = row.data("id");
+
+			cells.each(function() {
+				var cell = $(this),
+					field = cell.data("field");
+					input = cell.find("input, select");
+
+				if (input.is(":checkbox")) {
+					vals[field] = input.prop("checked");
+				} else {
+					vals[field] = input.val();
+				}
+			});
+
+			$.post("actions/guests.php", {
+				"action": "edit",
+				"id": id,
+				"data": JSON.stringify(vals)
+			}).done(function(respData) {
+				if (respData.success) {
+					fillRow(row, vals);
+				} else {
+					alert("Failed!");
+					console.log(respData.errorMsg);
+				}
+			}).fail(function(respData) {
+				alert("Error!");
+				console.log(respData);
+			});
 		});
 
 		setAction(subview_add.find(".newGuest"), "new");

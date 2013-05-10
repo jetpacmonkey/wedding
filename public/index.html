@@ -3,7 +3,8 @@
 <head>
 	<title>Wedding RSVP</title>
 	<link rel="stylesheet" type="text/css" href="css/styles.css"/>
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<!-- <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+	<script type="text/javascript" src="js/jquery1.9.1.min.js"></script>
 	<script type="text/javascript" src="js/html5shiv.js"></script>
 	<script type="text/javascript" src="js/json2.js"></script>
 </head>
@@ -45,9 +46,17 @@
 			<div class="main">
 				<div class="instructions">Please enter your last name</div>
 				<figure class="inputField">
-					<input type="text" data-field="last_name" id="lookup-last">
+					<input type="text" data-field="last_name" id="lookup-last" class="lookup-last">
 					<label class="placeholder" for="lookup-last">Last Name</label>
 				</figure>
+			</div>
+			<div class="main results noPlusOne noResults">
+				<header>
+					<div class="name">Name</div>
+					<div class="attending">Attending?</div>
+					<div class="plusOne">+1 Attending?</div>
+					<div class="type"></div>
+				</header>
 			</div>
 		</div>
 		<div class="subviews admin-subviews">
@@ -89,6 +98,10 @@
 				<span>enter</span>
 			</div>
 		</div>
+	</div>
+
+	<div class="oneGuest template">
+
 	</div>
 	<script type="text/javascript" src="js/scripts.js"></script>
 </body>

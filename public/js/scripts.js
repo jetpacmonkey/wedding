@@ -239,8 +239,90 @@
 		setAction(subview_add.find(".newGuest"), "new");
 	}
 
+	function setGuestHandlers() {
+		var loaded,
+			loading = false;
+
+		//function that fills in the "results" area based on the contents of the loaded array defined above.
+		//takes one parameter that filters based on last name
+		function showLoaded(filterText) {
+			if (arguments.length < 1) {
+				filterText = "";
+			}
+			var filtered, i, ii;
+			if (filterText) {
+				filtered = [];
+				for (i=0, ii=loaded.length; i<ii; ++i) {
+					if (loaded[i].last_name.indexOf(filterText) !== -1) {
+						filtered.push(loaded[i])
+					}
+				}
+			} else {
+				filtered = loaded;
+			}
+
+			var resultsArea = content.find(".main.results"),
+				guestTemplate = $(".oneGuest.template"),
+				anyPlusOne = false;
+
+			resultsArea.find(".oneGuest").remove();
+
+			for (i=0, ii=filtered.length; i<ii; ++i) {
+				var div = guestTemplate.clone(true).removeClass("template");
+
+			}
+
+			if (filtered.length) {
+				resultsArea.removeClass("noResults");
+			} else {
+				resultsArea.addClass("noResults");
+			}
+
+			if (anyPlusOne) {
+				resultsArea.removeClass("noPlusOne");
+			} else {
+				resultsArea.addClass("noPlusOne");
+			}
+		}
+
+		$(".lookup-last").off().on("keyup change", function() {
+			var input = $(this),
+				val = input.val(),
+				firstLetter = val.charAt(0),
+				prevFirstLetter = input.data("firstletter");
+
+			if (val) {
+				input.addClass("hasValue");
+			} else {
+				input.removeClass("hasValue");
+			}
+
+			if (loading) {
+				return;
+			}
+
+			if (firstLetter != prevFirstLetter) {
+				loaded = [];
+				showLoaded(); //clear out previously loaded entries
+				loading = true;
+				$.getJSON("actions/guests.php", {
+					"action": "load",
+					"startsWith": val
+				}).done(function(respData) {
+					loaded = respData;
+					input.data("firstletter", firstLetter);
+					loading = false;
+					input.keypress();
+				});
+			} else {
+				showLoaded(val);
+			}
+		});
+	}
+
 	setLoginHandlers();
 	setAdminHandlers();
+	setGuestHandlers();
 
 	loading(true);
 	$.get("actions/status.php").done(function(data) {

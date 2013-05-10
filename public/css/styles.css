@@ -141,7 +141,7 @@ html, body {
 	animation: fadein 2s;
 }
 
-#views {
+#views, .template {
 	display: none;
 }
 
@@ -170,7 +170,7 @@ html, body {
 	filter: alpha(opacity=100);
 }
 
-#content header, .main, footer, .loadingArea, nav {
+#content > header, .main, footer, .loadingArea, nav {
 	background-color: white;
 	-moz-border-radius: 12px;
 	border-radius: 12px;
@@ -186,7 +186,7 @@ html, body {
 	animation: fadeShadow 4s;
 }
 
-#content header {
+#content > header {
 	font-style: italic;
 	font-weight: bold;
 	display: block;
@@ -407,4 +407,47 @@ footer {
 	width: 100%;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+}
+
+.results header {
+	font-weight: bold;
+	font-size: 1.25em;
+	line-height: 1.75;
+	border-bottom: 2px solid #888;
+	overflow: hidden;
+}
+
+.results.noResults header {
+	display: none;
+}
+
+.results .oneGuest {
+	border-bottom: 1px solid #bbb;
+}
+
+.results .name {
+	width: 40%;
+	float: left;
+}
+
+.results .attending {
+	width: 30%;
+	float: left;
+}
+
+.results .plusOne {
+	width: 30%;
+	float: left;
+}
+
+.results.noPlusOne .name {
+	width: 50%;
+}
+
+.results.noPlusOne .name {
+	width: 50%;
+}
+
+.results.noPlusOne .plusOne {
+	display: none;
 }

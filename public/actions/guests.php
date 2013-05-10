@@ -5,12 +5,18 @@
 		$action = $_REQUEST['action'];
 
 		if ($action == 'load') {
-			if (checkPermission('admin')) {
+			if (checkPermission('guest')) {
 				header('Content-type: application/json');
 
 				connect();
 
-				$query = 'SELECT * FROM guests ORDER BY `last_name`, `first_name`, `type`';
+				$startsWith = mysql_escape_string($_REQUEST['startsWith']);
+
+				if ($startsWith) {
+					$query = 'SELECT * FROM guests WHERE last_name LIKE "' . $startsWith . '%" ORDER BY `last_name`, `first_name`, `type`';
+				} else {
+					$query = 'SELECT * FROM guests ORDER BY `last_name`, `first_name`, `type`';
+				}
 				$result = mysqli_query($link, $query);
 
 				disconnect();

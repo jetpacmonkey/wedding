@@ -52,10 +52,9 @@
 			</div>
 			<div class="main results noPlusOne noResults">
 				<header>
-					<div class="name">Name</div>
-					<div class="attending">Attending?</div>
-					<div class="plusOne">+1 Attending?</div>
-					<div class="type"></div>
+					<div class="name oneField">Name</div>
+					<div class="attending oneField">Attending?</div>
+					<div class="plusOne oneField">+1 Attending?</div>
 				</header>
 			</div>
 		</div>
@@ -101,7 +100,9 @@
 	</div>
 
 	<div class="oneGuest template">
-
+		<div class="oneField name" data-field="name"></div>
+		<div class="oneField attending" data-field="attending" data-type="bool"></div>
+		<div class="oneField plusOne" data-field="plus_one" data-type="bool"></div>
 	</div>
 	<script type="text/javascript" src="js/scripts.js"></script>
 </body>

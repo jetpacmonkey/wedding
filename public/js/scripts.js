@@ -239,6 +239,41 @@
 		setAction(subview_add.find(".newGuest"), "new");
 	}
 
+	function addChoices(div, id, field, checked) {
+		var yChoice = $("<div>", {
+				"class": "oneChoice"
+			}),
+			nChoice = $("<div>", {
+				"class": "oneChoice"
+			});
+
+		yChoice.append(
+			$("<input>", {
+				"id": id + field + "Y",
+				"type": "radio",
+				"checked": !!checked
+			}).data("val", true)
+		).append(
+			$("<label>", {
+				"for": id + field + "Y"
+			}).text("Yes")
+		);
+
+		nChoice.append(
+			$("<input>", {
+				"id": id + field + "N",
+				"type": "radio",
+				"checked": checked === false
+			}).data("val", false)
+		).append(
+			$("<label>", {
+				"for": id + field + "N"
+			}).text("No")
+		);
+
+		div.append(yChoice).append(nChoice);
+	}
+
 	function setGuestHandlers() {
 		var loaded,
 			loading = false;
@@ -268,8 +303,34 @@
 			resultsArea.find(".oneGuest").remove();
 
 			for (i=0, ii=filtered.length; i<ii; ++i) {
-				var div = guestTemplate.clone(true).removeClass("template");
+				var div = guestTemplate.clone(true).removeClass("template"),
+					guestData = filtered[i];
 
+				div.data("id", guestData.id);
+
+				guestData.name =
+					guestData.first_name +
+					(guestData.first_name && guestData.last_name ? " " : "") +
+					guestData.last_name;
+
+				//fill in fields
+				div.find(".oneField").each(function() {
+					var $this = $(this),
+						field = $this.data("field");
+					if ($this.data("type") == "bool") {
+						addChoices($this, guestData.id, field, guestData[field]);
+					} else {
+						$this.text(guestData[field]);
+					}
+				});
+
+				if (guestData.plus_one_permitted) {
+					anyPlusOne = true;
+				} else {
+					div.find(".oneField.plusOne").remove();
+				}
+
+				resultsArea.append(div);
 			}
 
 			if (filtered.length) {
@@ -302,18 +363,22 @@
 			}
 
 			if (firstLetter != prevFirstLetter) {
+				//clear out previously loaded entries
 				loaded = [];
-				showLoaded(); //clear out previously loaded entries
-				loading = true;
-				$.getJSON("actions/guests.php", {
-					"action": "load",
-					"startsWith": val
-				}).done(function(respData) {
-					loaded = respData;
-					input.data("firstletter", firstLetter);
-					loading = false;
-					input.keypress();
-				});
+				showLoaded();
+
+				if (firstLetter) {
+					loading = true;
+					$.getJSON("actions/guests.php", {
+						"action": "load",
+						"startsWith": val
+					}).done(function(respData) {
+						loaded = respData;
+						input.data("firstletter", firstLetter);
+						loading = false;
+						input.change();
+					});
+				}
 			} else {
 				showLoaded(val);
 			}

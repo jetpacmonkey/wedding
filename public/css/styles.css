@@ -409,6 +409,10 @@ footer {
 	box-sizing: border-box;
 }
 
+.results {
+	overflow: hidden;
+}
+
 .results header {
 	font-weight: bold;
 	font-size: 1.25em;
@@ -423,21 +427,40 @@ footer {
 
 .results .oneGuest {
 	border-bottom: 1px solid #bbb;
+	padding: 10px;
+	height: 40px;
+	line-height: 40px;
+}
+
+.results .oneGuest:last-child {
+	border: none;
+}
+
+.results .oneField {
+	float: left;
+}
+
+.results .oneChoice {
+	height: 20px;
+	line-height: 20px;
+}
+
+.results .oneChoice label {
+	display: inline-block;
+	width: 50px;
+	text-align: center;
 }
 
 .results .name {
 	width: 40%;
-	float: left;
 }
 
 .results .attending {
 	width: 30%;
-	float: left;
 }
 
 .results .plusOne {
 	width: 30%;
-	float: left;
 }
 
 .results.noPlusOne .name {

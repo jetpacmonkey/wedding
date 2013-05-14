@@ -428,7 +428,7 @@ footer {
 .results .oneGuest {
 	border-bottom: 1px solid #bbb;
 	padding: 10px;
-	height: 40px;
+	min-height: 40px;
 	line-height: 40px;
 }
 
@@ -473,4 +473,15 @@ footer {
 
 .results.noPlusOne .plusOne {
 	display: none;
+}
+
+.results .responseDate {
+	clear: both;
+	background: #BCB;
+	font-size: 11px;
+	font-style: italic;
+	line-height: 1.2;
+	text-align: right;
+	padding: 4px;
+	margin-top: 6px;
 }

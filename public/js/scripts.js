@@ -1,6 +1,7 @@
 (function($, undefined) {
 	var content = $("#content"),
-		views = $("#views");
+		views = $("#views"),
+		MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 	function loading(isLoading) {
 		if (isLoading) {
 			content.addClass("loading");
@@ -313,6 +314,12 @@
 					(guestData.first_name && guestData.last_name ? " " : "") +
 					guestData.last_name;
 
+				if (guestData.responded === null) {
+					guestData.attending = guestData.plus_one = null; //if they haven't responded, don't preselect "No"
+				} else {
+					guestData.responded = new Date(guestData.responded);
+				}
+
 				//fill in fields
 				div.find(".oneField").each(function() {
 					var $this = $(this),
@@ -328,6 +335,15 @@
 					anyPlusOne = true;
 				} else {
 					div.find(".oneField.plusOne").remove();
+				}
+
+				if (guestData.responded) {
+					var dateDiv = $("<div>").addClass("responseDate");
+					dateDiv.text("Responded " +
+						MONTH_NAMES[guestData.responded.getMonth()] + " " +
+						guestData.responded.getDate() + ", " +
+						guestData.responded.getFullYear());
+					div.append(dateDiv);
 				}
 
 				resultsArea.append(div);
@@ -382,6 +398,10 @@
 			} else {
 				showLoaded(val);
 			}
+		});
+
+		$(".oneGuest").off().on("click.makeChoice", ".oneChoice input", function() {
+			
 		});
 	}
 

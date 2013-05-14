@@ -235,6 +235,21 @@
 				alert("Error!");
 				console.log(respData);
 			});
+		}).on("click", ".deleteGuest", function() {
+			var row = $(this).closest("tr"),
+				id = row.data("id");
+
+			$.post("actions/guests.php", {
+				"action": "delete",
+				"id": id
+			}).success(function(respData) {
+				if (respData.success) {
+					row.remove();
+				}
+			}).fail(function(respData) {
+				alert("Error!");
+				console.log(respData);
+			});
 		});
 
 		setAction(subview_add.find(".newGuest"), "new");
@@ -401,7 +416,7 @@
 		});
 
 		$(".oneGuest").off().on("click.makeChoice", ".oneChoice input", function() {
-			
+
 		});
 	}
 

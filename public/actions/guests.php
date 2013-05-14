@@ -74,6 +74,26 @@
 				header('HTTP/1.0 403 Forbidden');
 				echo 'You must be logged in as an admin to access this resource';
 			}
+		} else if ($action == 'delete') {
+			if (checkPermission('admin')) {
+				header('Content-type: application/json');
+
+				$data = (array)json_decode($_REQUEST['data']);
+				$id = (int)$_REQUEST['id'];
+
+				connect();
+				
+				$query = "DELETE FROM guests WHERE id=$id";
+				$success = mysqli_query($link, $query);
+
+				$arr = array('success' => $success);
+				if (!$success) {
+					$arr['errorMsg'] = mysqli_error($link);
+				}
+				disconnect();
+
+				echo json_encode($arr);
+			}
 		} else if ($action == 'respond') {
 			header('Content-type: application/json');
 

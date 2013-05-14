@@ -3,7 +3,7 @@
 
 	$returnDict = array();
 
-	$user = $_REQUEST['user'];
+	$user = strtolower($_REQUEST['user']);
 	$pass = $_REQUEST['pass'];
 
 	$returnDict['success'] = authenticate($user, $pass);

@@ -72,6 +72,6 @@ function safeValue($val) {
 	if ($val === (bool) $val) {
 		$val = ($val ? 1 : 0);
 	}
-	return '"' . mysql_escape_string("$val") . '"';
+	return '"' . mysql_escape_string($val) . '"';
 }
 ?>

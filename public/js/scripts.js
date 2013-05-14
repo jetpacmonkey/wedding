@@ -462,7 +462,7 @@
 					loading = true;
 					$.getJSON("actions/guests.php", {
 						"action": "load",
-						"startsWith": firstletter,
+						"startsWith": firstLetter,
 						"cacheBuster": (new Date()).getTime()
 					}).done(function(respData) {
 						loaded = respData;

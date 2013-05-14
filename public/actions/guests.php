@@ -85,7 +85,9 @@
 			connect();
 
 			$query = "SELECT plus_one_permitted FROM guests WHERE id=\"$id\"";
-			$plus_one_permitted = (bool)mysqli_fetch_assoc(mysqli_query($link, $query))['plus_one_permitted'];
+			$tmpResult = mysqli_query($link, $query);
+			$tmpRow = mysqli_fetch_assoc($tmpResult);
+			$plus_one_permitted = $tmpRow['plus_one_permitted'];
 
 			$validData['attending'] = $data['attending'];
 			if ($plus_one_permitted) {

@@ -12,7 +12,8 @@
 			$startsWith = mysql_escape_string(strtoupper($_REQUEST['startsWith']));
 
 			if ($startsWith) {
-				$query = 'SELECT * FROM guests WHERE last_name LIKE "' . $startsWith . '%" ORDER BY `last_name`, `first_name`, `type`';
+				$query = 'SELECT * FROM guests WHERE last_name LIKE "' . $startsWith . '%" OR ' .
+					'family_name LIKE "' . $startsWith . '%" ORDER BY `last_name`, `first_name`, `type`';
 			} else {
 				$query = 'SELECT * FROM guests ORDER BY `last_name`, `first_name`, `type`';
 			}

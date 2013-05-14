@@ -361,7 +361,10 @@
 			if (filterText) {
 				filtered = [];
 				for (i=0, ii=loaded.length; i<ii; ++i) {
-					if (loaded[i].last_name.toUpperCase().indexOf(filterText) !== -1) {
+					if (
+						loaded[i].last_name.toUpperCase().indexOf(filterText) !== -1 ||
+						loaded[i].family_name.toUpperCase().indexOf(filterText) !== -1
+						) {
 						filtered.push(loaded[i])
 					}
 				}
@@ -459,7 +462,7 @@
 					loading = true;
 					$.getJSON("actions/guests.php", {
 						"action": "load",
-						"startsWith": val,
+						"startsWith": firstletter,
 						"cacheBuster": (new Date()).getTime()
 					}).done(function(respData) {
 						loaded = respData;

@@ -69,6 +69,10 @@ function safeFieldName($fieldName) {
 }
 
 function safeValue($val) {
+	if ($val == "NOW()") {
+		return $val;
+	}
+
 	if ($val === (bool) $val) {
 		$val = ($val ? 1 : 0);
 	}

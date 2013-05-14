@@ -245,6 +245,9 @@
 			}).success(function(respData) {
 				if (respData.success) {
 					row.remove();
+				} else {
+					alert("Error!");
+					console.log(respData);
 				}
 			}).fail(function(respData) {
 				alert("Error!");
@@ -267,6 +270,7 @@
 			$("<input>", {
 				"id": id + field + "Y",
 				"type": "radio",
+				"name": id + field,
 				"checked": !!checked
 			}).data("val", true)
 		).append(
@@ -279,6 +283,7 @@
 			$("<input>", {
 				"id": id + field + "N",
 				"type": "radio",
+				"name": id + field,
 				"checked": checked === false
 			}).data("val", false)
 		).append(
@@ -288,6 +293,57 @@
 		);
 
 		div.append(yChoice).append(nChoice);
+
+		var prevSelected = div.find(":radio:checked");
+		div.find("input").off().on("click", function() {
+			var $this = $(this),
+				fieldDiv = $this.closest(".oneField"),
+				row = fieldDiv.closest(".oneGuest"),
+				field = fieldDiv.data("field"),
+				id = row.data("id"),
+				data = {};
+
+			console.log(this);
+
+			if (!$this.prop("checked") || $this.is(prevSelected)) {
+				return;
+			}
+
+			data[field] = $this.data("val");
+
+			$.post("actions/guests.php", {
+				"action": "respond",
+				"id": id,
+				"data": JSON.stringify(data)
+			}).success(function(respData) {
+				if (respData.success) {
+					var responded = new Date();
+
+					var dateDiv = row.find(".responseDate");
+
+					if (!dateDiv.length) {
+						dateDiv = $("<div>").addClass("responseDate");
+						row.append(dateDiv);
+					}
+					dateDiv.text("Responded " +
+						MONTH_NAMES[responded.getMonth()] + " " +
+						responded.getDate() + ", " +
+						responded.getFullYear());
+
+					prevSelected = $this;
+				} else {
+					alert("Error!");
+					console.log(respData);
+					$this.prop("checked", false);
+					prevSelected.prop("checked", true);
+				}
+			}).fail(function(respData) {
+				alert("Error!");
+				console.log(respData);
+				$this.prop("checked", false);
+				prevSelected.prop("checked", true);
+			});
+		});
 	}
 
 	function setGuestHandlers() {
@@ -300,11 +356,12 @@
 			if (arguments.length < 1) {
 				filterText = "";
 			}
+			filterText = filterText.toUpperCase();
 			var filtered, i, ii;
 			if (filterText) {
 				filtered = [];
 				for (i=0, ii=loaded.length; i<ii; ++i) {
-					if (loaded[i].last_name.indexOf(filterText) !== -1) {
+					if (loaded[i].last_name.toUpperCase().indexOf(filterText) !== -1) {
 						filtered.push(loaded[i])
 					}
 				}
@@ -402,7 +459,8 @@
 					loading = true;
 					$.getJSON("actions/guests.php", {
 						"action": "load",
-						"startsWith": val
+						"startsWith": val,
+						"cacheBuster": (new Date()).getTime()
 					}).done(function(respData) {
 						loaded = respData;
 						input.data("firstletter", firstLetter);
@@ -413,10 +471,6 @@
 			} else {
 				showLoaded(val);
 			}
-		});
-
-		$(".oneGuest").off().on("click.makeChoice", ".oneChoice input", function() {
-
 		});
 	}
 

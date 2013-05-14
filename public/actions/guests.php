@@ -9,7 +9,7 @@
 
 			connect();
 
-			$startsWith = mysql_escape_string($_REQUEST['startsWith']);
+			$startsWith = mysql_escape_string(strtoupper($_REQUEST['startsWith']));
 
 			if ($startsWith) {
 				$query = 'SELECT * FROM guests WHERE last_name LIKE "' . $startsWith . '%" ORDER BY `last_name`, `first_name`, `type`';
@@ -97,22 +97,29 @@
 		} else if ($action == 'respond') {
 			header('Content-type: application/json');
 
-			$data = (array)json_decode($_REQUEST['data']);
 			$id = (int)$_REQUEST['id'];
+			$data = (array)json_decode($_REQUEST['data']);
 
 			$validData = array();
 
 			connect();
 
-			$query = "SELECT plus_one_permitted FROM guests WHERE id=\"$id\"";
-			$tmpResult = mysqli_query($link, $query);
-			$tmpRow = mysqli_fetch_assoc($tmpResult);
-			$plus_one_permitted = $tmpRow['plus_one_permitted'];
-
-			$validData['attending'] = $data['attending'];
-			if ($plus_one_permitted) {
-				$validData['plus_one'] = $data['plus_one'];
+			if (array_key_exists('attending', $data)) {
+				$validData['attending'] = $data['attending'];
 			}
+
+			if (array_key_exists('plus_one', $data)) {
+				$query = "SELECT plus_one_permitted FROM guests WHERE id=\"$id\"";
+				$tmpResult = mysqli_query($link, $query);
+				$tmpRow = mysqli_fetch_assoc($tmpResult);
+				$plus_one_permitted = $tmpRow['plus_one_permitted'];
+
+				if ($plus_one_permitted) {
+					$validData['plus_one'] = $data['plus_one'];
+				}
+			}
+
+			$validData['responded'] = "NOW()";
 
 			$success = update('guests', $id, $validData);
 
@@ -123,6 +130,11 @@
 			disconnect();
 
 			echo json_encode($arr);
+		} else if ($action == 'adminInfo') {
+			//returns admin info
+			header('Content-type: application/json');
+
+			echo json_encode($settings['admin']);
 		}
 	} else {
 		header('HTTP/1.0 403 Forbidden');

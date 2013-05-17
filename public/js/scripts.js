@@ -1,4 +1,6 @@
 (function($, undefined) {
+	if (typeof console == "undefined") {var console = { log: function() {} }; console.error = console.warn = console.log;}
+
 	var content = $("#content"),
 		views = $("#views"),
 		MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

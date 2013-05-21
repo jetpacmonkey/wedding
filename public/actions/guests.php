@@ -29,6 +29,7 @@
 				$row['plus_one'] = (bool) $row['plus_one'];
 				$row['plus_one_permitted'] = (bool) $row['plus_one_permitted'];
 				$row['id'] = (int) $row['id'];
+				$row['responded'] = 1000 * date('U', strtotime($row['responded']));
 
 				//add to output array
 				$arr[] = $row;

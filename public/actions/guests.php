@@ -126,7 +126,8 @@
 				}
 
 				$plusOneRow = mysqli_fetch_assoc($plusOneResult);
-				$arr['adult'] += $plusOneRow['num'];
+				$plusOnes = $plusOneRow['num'];
+				$arr['adult'] = ($arr['adult'] + $plusOnes) . " ({$arr['adult']}+$plusOnes)";
 				$total += $plusOneRow['num'];
 
 				$arr['TOTAL'] = $total;

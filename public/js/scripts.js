@@ -1,5 +1,5 @@
 (function($, undefined) {
-	if (typeof console == "undefined") {var console = { log: function() {} }; console.error = console.warn = console.log;}
+	if (typeof console == "undefined") {console = { log: function() {} }; console.error = console.warn = console.log;}
 
 	var content = $("#content"),
 		views = $("#views"),
@@ -131,12 +131,12 @@
 				subview = navItem.data("subview"),
 				prevItem = navItem.siblings(".selected");
 
-			main.html(subviews.find("." + subview).clone(true).children()).addClass(subview);
 			navItem.addClass("selected");
 			if (prevItem.length) {
 				prevItem.removeClass("selected");
 				main.removeClass(prevItem.data("subview"));
 			}
+			main.html(subviews.find("." + subview).clone(true).children()).addClass(subview);
 
 			//load/process data required for subview
 			if (subview == "add") {
@@ -151,7 +151,14 @@
 				});
 			} else if (subview == "totals") {
 				loadTotals(function(data) {
-					console.log(data);
+					main.find("tr").each(function() {
+						var $this = $(this),
+							type = $this.data("type");
+
+						if (type in data) {
+							$this.find(".count").text(data[type]);
+						}
+					});
 				});
 			}
 		});

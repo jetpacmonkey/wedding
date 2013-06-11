@@ -409,6 +409,20 @@ footer {
 	box-sizing: border-box;
 }
 
+.admin .totals table {
+	width: 100%;
+}
+
+.admin .totals th {
+	width: 50%;
+}
+
+.admin .totals .total {
+	font-weight: bold;
+	height: 1.4em;
+	line-height: 1.4em;
+}
+
 .results {
 	overflow: hidden;
 }

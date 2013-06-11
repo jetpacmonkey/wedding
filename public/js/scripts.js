@@ -114,6 +114,17 @@
 			});
 		}
 
+		function loadTotals(callback) {
+			loading(true);
+			$.get("actions/guests.php", {
+				"action": "totals"
+			}).done(function(data) {
+				callback(data);
+			}).always(function() {
+				loading(false);
+			});
+		}
+
 		$(".admin nav .nav-item").off().on("click", function() {
 			var main = content.find(".main"),
 				navItem = $(this),
@@ -137,6 +148,10 @@
 						tr.data("id", data[i].id);
 						tr.insertBefore(newGuest);
 					}
+				});
+			} else if (subview == "totals") {
+				loadTotals(function(data) {
+					console.log(data);
 				});
 			}
 		});

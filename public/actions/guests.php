@@ -108,8 +108,10 @@
 				connect();
 
 				$query = 'SELECT  `type` , SUM( attending ) as num FROM  `guests` GROUP BY  `type` ';
-
 				$result = mysqli_query($link, $query);
+
+				$query = 'SELECT SUM( plus_one ) as num from guests WHERE plus_one_permitted = 1';
+				$plusOneResult = mysqli_query($link, $query);
 
 				disconnect();
 
@@ -122,6 +124,10 @@
 					//add to output array
 					$arr[$row['type']] = (int) $row['num'];
 				}
+
+				$plusOneRow = mysqli_fetch_assoc($plusOneResult);
+				$arr['adult'] += $plusOneRow['num'];
+				$total += $plusOneRow['num'];
 
 				$arr['TOTAL'] = $total;
 

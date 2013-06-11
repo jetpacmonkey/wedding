@@ -97,6 +97,38 @@
 				disconnect();
 
 				echo json_encode($arr);
+			} else {
+				header('HTTP/1.0 403 Forbidden');
+				echo 'You must be logged in as an admin to access this resource';
+			}
+		} else if ($action == 'totals') {
+			if (checkPermission('admin')) {
+				header('Content-type: application/json');
+
+				connect();
+
+				$query = 'SELECT  `type` , SUM( attending ) as num FROM  `guests` GROUP BY  `type` ';
+
+				$result = mysqli_query($link, $query);
+
+				disconnect();
+
+				$arr = array();
+
+				$total = 0;
+				while ($row = mysqli_fetch_assoc($result)) {
+					$total += (int) $row['num'];
+
+					//add to output array
+					$arr[$row['type']] = (int) $row['num'];
+				}
+
+				$arr['TOTAL'] = $total;
+
+				echo json_encode($arr);
+			} else {
+				header('HTTP/1.0 403 Forbidden');
+				echo 'You must be logged in as an admin to access this resource';
 			}
 		} else if ($action == 'respond') {
 			header('Content-type: application/json');

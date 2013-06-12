@@ -107,30 +107,32 @@
 
 				connect();
 
-				$query = 'SELECT  `type` , SUM( attending ) as num FROM  `guests` GROUP BY  `type` ';
+				$query = 'SELECT  `type` , SUM( attending ) as num, COUNT(*) as count FROM  `guests` GROUP BY  `type` ';
 				$result = mysqli_query($link, $query);
 
-				$query = 'SELECT SUM( plus_one ) as num from guests WHERE plus_one_permitted = 1';
+				$query = 'SELECT SUM( plus_one ) as num, COUNT(*) as count from guests WHERE plus_one_permitted = 1';
 				$plusOneResult = mysqli_query($link, $query);
 
 				disconnect();
 
 				$arr = array();
 
-				$total = 0;
+				$arr['num'] = array('TOTAL' => 0);
+				$arr['count'] = array('TOTAL' => 0);
 				while ($row = mysqli_fetch_assoc($result)) {
 					$total += (int) $row['num'];
 
 					//add to output array
-					$arr[$row['type']] = (int) $row['num'];
+					$arr['num'][$row['type']] = (int) $row['num'];
+					$arr['count'][$row['type']] = (int) $row['count'];
+
+					$arr['num']['TOTAL'] += $row['num'];
+					$arr['count']['TOTAL'] += $row['count'];
 				}
 
 				$plusOneRow = mysqli_fetch_assoc($plusOneResult);
-				$plusOnes = $plusOneRow['num'];
-				$arr['adult'] = ($arr['adult'] + $plusOnes) . " ({$arr['adult']}+$plusOnes)";
-				$total += $plusOnes;
-
-				$arr['TOTAL'] = $total;
+				$arr['num']['plus_one'] = (int) $plusOneRow['num'];
+				$arr['count']['plus_one'] = (int) $plusOneRow['count'];
 
 				echo json_encode($arr);
 			} else {

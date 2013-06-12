@@ -153,11 +153,19 @@
 				loadTotals(function(data) {
 					main.find("tr").each(function() {
 						var $this = $(this),
-							type = $this.data("type");
+							type = $this.data("type"),
+							num = data.num[type] || 0,
+							count = data.count[type] || 0;
 
-						if (type in data) {
-							$this.find(".count").text(data[type]);
+						if ($this.hasClass("includePlusOne") && "plus_one" in data.num) {
+							$this.find(".breakdown").text(num + "/" + count + " + " + 
+								data.num.plus_one + "/" + data.count.plus_one);
+							num += data.num.plus_one;
+							count += data.count.plus_one;
 						}
+
+						$this.find(".num").text(num);
+						$this.find(".count").text(count);
 					});
 				});
 			}

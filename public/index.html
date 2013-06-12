@@ -92,25 +92,35 @@
 					<thead>
 						<tr>
 							<th>Type</th>
-							<th># Attending</th>
+							<th>Attending</th>
+							<th>Responded</th>
+							<th>Total</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="includePlusOne" data-type="adult">
-							<td>Adult (11+) (and +1's)</td>
-							<td><span class="num">0</span>/<span class="count"></span><span class="breakdown"></span></td>
+						<tr class="oneType includePlusOne" data-type="adult">
+							<th>Adult (11+)</th>
+							<td class="field" data-field="attending">0</td>
+							<td class="field" data-field="responded">0</td>
+							<td class="field" data-field="total">0</td>
 						</tr>
-						<tr data-type="child">
-							<td>Child (4-10)</td>
-							<td><span class="num">0</span>/<span class="count"></span></td>
+						<tr class="oneType" data-type="child">
+							<th>Child (4-10)</th>
+							<td class="field" data-field="attending">0</td>
+							<td class="field" data-field="responded">0</td>
+							<td class="field" data-field="total">0</td>
 						</tr>
-						<tr data-type="toddler">
-							<td>Toddler (0-3)</td>
-							<td><span class="num">0</span>/<span class="count"></span></td>
+						<tr class="oneType" data-type="toddler">
+							<th>Toddler (0-3)</th>
+							<td class="field" data-field="attending">0</td>
+							<td class="field" data-field="responded">0</td>
+							<td class="field" data-field="total">0</td>
 						</tr>
-						<tr data-type="TOTAL" class="total">
-							<td>TOTAL</td>
-							<td><span class="num">0</span>/<span class="count"></span></td>
+						<tr class="total" data-type="TOTAL">
+							<th>TOTAL</th>
+							<td class="field" data-field="attending">0</td>
+							<td class="field" data-field="responded">0</td>
+							<td class="field" data-field="total">0</td>
 						</tr>
 					</tbody>
 				</table>

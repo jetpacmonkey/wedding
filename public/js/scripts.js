@@ -54,6 +54,24 @@
 		tr.data("vals", data);
 	}
 
+	function fillTotalsRow(tr, data, totals, plusOneData) {
+		tr.find(".field").each(function() {
+			var cell = $(this),
+				field = cell.data("field"),
+				val = data[field] || 0;
+
+			if (plusOneData) {
+				var plusOneVal = plusOneData[field] || 0;
+				cell.attr("data-base", val).attr("data-plusone", plusOneVal);
+				val += plusOneVal;
+			}
+			cell.text(val);
+			if (totals) {
+				totals[field] = (totals[field] || 0) + val;
+			}
+		});
+	}
+
 	function setLoginHandlers() {
 		$(".login input").off().on("keyup change", function() {
 			if ($(this).val()) {
@@ -151,22 +169,25 @@
 				});
 			} else if (subview == "totals") {
 				loadTotals(function(data) {
-					main.find("tr").each(function() {
-						var $this = $(this),
-							type = $this.data("type"),
-							num = data.num[type] || 0,
-							count = data.count[type] || 0;
+					var totals = {};
+					main.find(".oneType").each(function() {
+						var row = $(this),
+							type = row.data("type"),
+							includePlusOne = row.hasClass("includePlusOne") && "plus_one" in data;
 
-						if ($this.hasClass("includePlusOne") && "plus_one" in data.num) {
-							$this.find(".breakdown").text(num + "/" + count + " + " + 
-								data.num.plus_one + "/" + data.count.plus_one);
-							num += data.num.plus_one;
-							count += data.count.plus_one;
-						}
-
-						$this.find(".num").text(num);
-						$this.find(".count").text(count);
+						fillTotalsRow(
+							row,
+							data[type] || {},
+							totals,
+							includePlusOne ? data.plus_one : null
+							);
 					});
+
+					//individual types all done, let's fill in the total row
+					fillTotalsRow(
+							main.find(".total"),
+							totals
+							);
 				});
 			}
 		});

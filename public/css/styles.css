@@ -373,12 +373,12 @@ footer {
 	box-sizing: border-box;
 }
 
-.admin table th {
+.admin .add table th {
 	font-size: 14px;
 	font-weight: bold;
 }
 
-.admin table td {
+.admin .add table td {
 	font-size: 12px;
 }
 
@@ -411,30 +411,30 @@ footer {
 
 .admin .totals table {
 	width: 100%;
+	font-size: 0.78em;
+	line-height: 1.4em;
 }
 
-.admin .totals th {
-	width: 50%;
+.admin .totals tbody th {
+	font-weight: bold;
 }
 
-.admin .totals .breakdown {
+.admin .totals .includePlusOne th:after {
+	font-weight: normal;
+	font-style: italic;
+	content: " (and +1's)";
+}
+
+.admin .totals .includePlusOne [data-plusone][data-base]:after {
+	content: "(" attr(data-base) "+" attr(data-plusone) ")";
 	font-style: italic;
 	font-size: 0.9em;
 	margin-left: 0.2em;
 }
 
-.admin .totals .breakdown:before {
-	content: "(";
-}
-
-.admin .totals .breakdown:after {
-	content: ")";
-}
-
 .admin .totals .total {
-	font-weight: bold;
-	height: 1.4em;
-	line-height: 1.4em;
+	font-size: 1.2em;
+	line-height: 1.8em;
 }
 
 .results {

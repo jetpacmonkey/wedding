@@ -40,7 +40,7 @@ function checkPermission($type="admin") {
 
 function authenticate($user, $pass) {
 	global $settings;
-	return (array_key_exists($user, $settings['users']) && $settings['users'][$user] == $pass);
+	return (array_key_exists($user, $settings['users']) && strtolower($settings['users'][$user]) == strtolower($pass));
 }
 
 function insert($table, $data) {
